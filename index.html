@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Verifying...</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			text-align: center;
+			margin-top: 80px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Verifying your account...</h1>
+	<p>Please wait, do not close this tab.</p>
+	<script>
+		const params = window.location.search;
+
+		fetch(`https://mimibinding.militaryboi.workers.dev/handle-callback${params}`)
+			.then(res => res.json())
+			.then(data => {
+				if (data.ok) {
+					document.querySelector('h1').textContent = '✅ Verified!';
+					document.querySelector('p').textContent = `Your Roblox account ${data.robloxUsername} has been linked. You can close this tab.`;
+				} else {
+					document.querySelector('h1').textContent = '❌ Something went wrong';
+					document.querySelector('p').textContent = data.error || 'Please try again.';
+				}
+			})
+			.catch(() => {
+				document.querySelector('h1').textContent = '❌ Something went wrong';
+				document.querySelector('p').textContent = 'Could not reach verification server. Please try again.';
+			});
+	</script>
+</body>
+</html>
